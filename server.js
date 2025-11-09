@@ -58,11 +58,27 @@ import authRoutes from "./routes/authRoutes.js"; // note the .js extension
 dotenv.config();
 
 const app = express();
-app.use(cors({
- origin: "https://collegewebsite-client.vercel.app/",
- methods: ["GET", "POST"]
-}));
+//app.use(cors({
+ //origin: "https://collegewebsite-client.vercel.app/",
+ //methods: ["GET", "POST"]
+//}));
 app.use(express.json());
+
+const allowedOrigins = [
+  'https://collegewebsite-client.vercel.app', // ✅ no trailing slash
+  'http://localhost:3000',                    // ✅ optional for local testing
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+}));
 
 mongoose
   .connect(process.env.MONGO_URI)
@@ -73,6 +89,7 @@ app.use("/auth", authRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
 
 
 
