@@ -36,11 +36,17 @@
 
 
 
-const express = require('express');
+//const express = require('express');
+//const router = express.Router();
+//const bcrypt = require('bcryptjs');
+//const jwt = require('jsonwebtoken');
+//const User = require('../models/User');
+import express from "express";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import User from "../models/User.js"; // note: add .js extension
+
 const router = express.Router();
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
 
 // SIGNUP
 router.post('/signup', async (req, res) => {
@@ -76,7 +82,8 @@ router.post('/signin', async (req, res) => {
   }
 });
 
-module.exports = router;
+//module.exports = router;
+export default router;
 
 
 
@@ -139,5 +146,6 @@ module.exports = router;
 //     res.status(500).json({ message: "Server error" });
 //   }
 // });
+
 
 // export default router;
